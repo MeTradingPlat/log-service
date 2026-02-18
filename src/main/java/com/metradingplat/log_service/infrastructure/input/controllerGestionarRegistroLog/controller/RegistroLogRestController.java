@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,5 +57,12 @@ public class RegistroLogRestController {
         List<RegistroLog> logs = this.objGestionarRegistroLogCUInt.obtenerPorEscaner(idEscaner);
         List<RegistroLogDTORespuesta> respuesta = this.objMapper.mappearListaDeRegistroLogARespuesta(logs);
         return ResponseEntity.ok(respuesta);
+    }
+
+    @DeleteMapping("/escaner/{idEscaner}")
+    public ResponseEntity<Void> eliminarPorEscaner(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner) {
+        this.objGestionarRegistroLogCUInt.eliminarPorEscaner(idEscaner);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -61,4 +61,10 @@ public class GestionarRegistroLogGatewayImplAdapter implements GestionarRegistro
         List<RegistroLogEntity> entities = this.objRegistroLogRepository.findByIdEscaner(idEscaner);
         return this.objMapper.mappearListaDeEntityARegistroLog(entities);
     }
+
+    @Override
+    @Transactional
+    public void eliminarPorIdEscaner(Long idEscaner) {
+        this.objRegistroLogRepository.deleteByIdEscaner(idEscaner);
+    }
 }

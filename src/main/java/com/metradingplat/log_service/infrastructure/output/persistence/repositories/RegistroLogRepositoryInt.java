@@ -13,4 +13,6 @@ public interface RegistroLogRepositoryInt extends JpaRepository<RegistroLogEntit
     List<RegistroLogEntity> findByServicioOrigen(String servicioOrigen);
 
     List<RegistroLogEntity> findByIdEscaner(Long idEscaner);
+
+    void deleteByIdEscaner(Long idEscaner);
 }

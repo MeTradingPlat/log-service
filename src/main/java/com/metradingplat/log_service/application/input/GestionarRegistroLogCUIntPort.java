@@ -14,4 +14,6 @@ public interface GestionarRegistroLogCUIntPort {
     List<RegistroLog> obtenerPorServicio(String servicioOrigen);
 
     List<RegistroLog> obtenerPorEscaner(Long idEscaner);
+
+    void eliminarPorEscaner(Long idEscaner);
 }
