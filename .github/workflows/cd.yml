@@ -24,10 +24,12 @@ jobs:
               --name "postgres-logs" \
               --network "metradingplat-network" \
               --restart "always" \
+              --memory "256m" \
+              --memory-swap "256m" \
               -e POSTGRES_DB="bd_logs" \
               -e POSTGRES_USER="user_logs" \
               -e POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
-              -p 5436:5432 \
+              -p 127.0.0.1:5436:5432 \
               -v postgres_logs_data:/var/lib/postgresql/data \
               postgres:15-alpine
           else
@@ -61,10 +63,12 @@ jobs:
       - name: Run Application Container
         run: |
           docker run -d \
-            -p 8084:8084 \
+            -p 127.0.0.1:8084:8084 \
             --name "log-service" \
             --network "metradingplat-network" \
             --restart "unless-stopped" \
+            --memory "320m" \
+            --memory-swap "320m" \
             --label project="metradingplat" \
             --label service="log-service" \
             -e SPRING_PROFILES_ACTIVE="prod" \
