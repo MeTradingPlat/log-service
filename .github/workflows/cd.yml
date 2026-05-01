@@ -29,7 +29,6 @@ jobs:
               -e POSTGRES_DB="bd_logs" \
               -e POSTGRES_USER="user_logs" \
               -e POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
-              -p 127.0.0.1:5436:5432 \
               -v postgres_logs_data:/var/lib/postgresql/data \
               postgres:15-alpine
           else
@@ -63,7 +62,6 @@ jobs:
       - name: Run Application Container
         run: |
           docker run -d \
-            -p 127.0.0.1:8084:8084 \
             --name "log-service" \
             --network "metradingplat-network" \
             --restart "unless-stopped" \
