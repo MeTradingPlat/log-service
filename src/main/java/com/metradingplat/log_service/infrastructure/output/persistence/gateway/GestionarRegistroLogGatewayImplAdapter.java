@@ -63,6 +63,14 @@ public class GestionarRegistroLogGatewayImplAdapter implements GestionarRegistro
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<RegistroLog> obtenerPorIdEscaner(Long idEscaner, int page, int size) {
+        var pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by("timestamp").descending());
+        var entities = this.objRegistroLogRepository.findByIdEscaner(idEscaner, pageable);
+        return this.objMapper.mappearListaDeEntityARegistroLog(entities);
+    }
+
+    @Override
     @Transactional
     public void eliminarPorIdEscaner(Long idEscaner) {
         this.objRegistroLogRepository.deleteByIdEscaner(idEscaner);

@@ -2,6 +2,7 @@ package com.metradingplat.log_service.infrastructure.output.persistence.reposito
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,8 @@ public interface RegistroLogRepositoryInt extends JpaRepository<RegistroLogEntit
     List<RegistroLogEntity> findByServicioOrigen(String servicioOrigen);
 
     List<RegistroLogEntity> findByIdEscaner(Long idEscaner);
+
+    List<RegistroLogEntity> findByIdEscaner(Long idEscaner, Pageable pageable);
 
     void deleteByIdEscaner(Long idEscaner);
 }

@@ -60,6 +60,11 @@ public class GestionarRegistroLogCUAdapter implements GestionarRegistroLogCUIntP
     }
 
     @Override
+    public List<RegistroLog> obtenerPorEscaner(Long idEscaner, int page, int size) {
+        return this.objGestionarRegistroLogGatewayIntPort.obtenerPorIdEscaner(idEscaner, page, size);
+    }
+
+    @Override
     public void eliminarPorEscaner(Long idEscaner) {
         log.info("Eliminando logs del escaner {}", idEscaner);
         this.objGestionarRegistroLogGatewayIntPort.eliminarPorIdEscaner(idEscaner);

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.metradingplat.log_service.application.input.GestionarRegistroLogCUIntPort;
@@ -53,8 +54,10 @@ public class RegistroLogRestController {
 
     @GetMapping("/escaner/{idEscaner}")
     public ResponseEntity<List<RegistroLogDTORespuesta>> obtenerPorEscaner(
-            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner) {
-        List<RegistroLog> logs = this.objGestionarRegistroLogCUInt.obtenerPorEscaner(idEscaner);
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        List<RegistroLog> logs = this.objGestionarRegistroLogCUInt.obtenerPorEscaner(idEscaner, page, size);
         List<RegistroLogDTORespuesta> respuesta = this.objMapper.mappearListaDeRegistroLogARespuesta(logs);
         return ResponseEntity.ok(respuesta);
     }
