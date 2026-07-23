@@ -15,6 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegistroLogDTOPeticion {
+    private String type;
     private String servicioOrigen;
     private String nivel;
     private String mensaje;

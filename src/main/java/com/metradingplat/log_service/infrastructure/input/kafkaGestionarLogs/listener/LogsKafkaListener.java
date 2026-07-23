@@ -21,6 +21,11 @@ public class LogsKafkaListener {
 
     @KafkaListener(topics = "logs", groupId = "logs-group")
     public void recibirLog(RegistroLogDTOPeticion command) {
+        if ("CLEAR_SCANNER_SIGNALS".equals(command.getType()) && command.getIdEscaner() != null) {
+            log.info("Clearing signals for scanner {}", command.getIdEscaner());
+            this.objGestionarRegistroLogCUInt.eliminarPorEscaner(command.getIdEscaner());
+            return;
+        }
         log.debug("Recibido log de {}: [{}] {}", command.getServicioOrigen(),
                 command.getNivel(), command.getMensaje());
         RegistroLog objRegistroLog = this.objMapper.deDTOADominio(command);
