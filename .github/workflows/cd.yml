@@ -65,8 +65,8 @@ jobs:
             --name "log-service" \
             --network "metradingplat-network" \
             --restart "unless-stopped" \
-            --memory "320m" \
-            --memory-swap "320m" \
+            --memory "640m" \
+            --memory-swap "640m" \
             --label project="metradingplat" \
             --label service="log-service" \
             -e SPRING_PROFILES_ACTIVE="prod" \
