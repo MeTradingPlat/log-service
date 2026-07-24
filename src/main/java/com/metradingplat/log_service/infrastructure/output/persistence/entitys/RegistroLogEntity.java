@@ -2,12 +2,8 @@ package com.metradingplat.log_service.infrastructure.output.persistence.entitys;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +15,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "registros_log")
-@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -49,7 +44,6 @@ public class RegistroLogEntity {
     @Column(length = 30)
     private String categoria;
 
-    @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime timestamp;
 
