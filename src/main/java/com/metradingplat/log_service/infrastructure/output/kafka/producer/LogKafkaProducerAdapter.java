@@ -30,6 +30,7 @@ public class LogKafkaProducerAdapter implements PublicarLogIntPort {
                 .symbol(objRegistroLog.getSymbol())
                 .categoria(objRegistroLog.getCategoria())
                 .timestamp(objRegistroLog.getTimestamp())
+                .metadatos(objRegistroLog.getMetadatos())
                 .build();
 
         this.kafkaTemplate.send(TOPIC_LOGS_NOTIFICATIONS, dto);

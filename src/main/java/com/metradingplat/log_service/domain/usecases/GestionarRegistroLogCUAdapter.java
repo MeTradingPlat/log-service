@@ -30,8 +30,15 @@ public class GestionarRegistroLogCUAdapter implements GestionarRegistroLogCUIntP
 
         RegistroLog guardado = this.objGestionarRegistroLogGatewayIntPort.guardar(objRegistroLog);
 
-        // Republicar para notificaciones en tiempo real
-        this.objPublicarLogIntPort.publicarLogParaNotificaciones(guardado);
+        // Republicar para notificaciones en tiempo real -- excepto cuando el
+        // productor manda esSenalNueva=false explicito (signal-processing-service,
+        // para un simbolo que ya calificaba en el ciclo anterior). Otros
+        // productores (cambios de estado de escaner, etc.) nunca mandan este
+        // campo, asi que llega null y se sigue notificando como siempre --
+        // solo false explicito suprime.
+        if (!Boolean.FALSE.equals(guardado.getEsSenalNueva())) {
+            this.objPublicarLogIntPort.publicarLogParaNotificaciones(guardado);
+        }
 
         return guardado;
     }

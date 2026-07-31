@@ -24,4 +24,5 @@ public class RegistroLogDTOPeticion {
     private String categoria;
     private LocalDateTime timestamp;
     private String metadatos;
+    private Boolean esSenalNueva;
 }
