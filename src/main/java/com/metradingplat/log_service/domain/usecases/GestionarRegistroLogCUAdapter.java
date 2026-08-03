@@ -76,4 +76,19 @@ public class GestionarRegistroLogCUAdapter implements GestionarRegistroLogCUIntP
         log.info("Eliminando logs del escaner {}", idEscaner);
         this.objGestionarRegistroLogGatewayIntPort.eliminarPorIdEscaner(idEscaner);
     }
+
+    @Override
+    public List<java.time.LocalDate> obtenerFechasSenial(Long idEscaner) {
+        return this.objGestionarRegistroLogGatewayIntPort.obtenerFechasSenial(idEscaner);
+    }
+
+    @Override
+    public List<RegistroLog> obtenerPorEscanerYFecha(Long idEscaner, java.time.LocalDate fecha, int page, int size) {
+        return this.objGestionarRegistroLogGatewayIntPort.obtenerPorIdEscanerYFecha(idEscaner, fecha, page, size);
+    }
+
+    @Override
+    public List<String> obtenerSimbolosSenializadosHoy(Long idEscaner) {
+        return this.objGestionarRegistroLogGatewayIntPort.obtenerSimbolosSenializadosHoy(idEscaner);
+    }
 }

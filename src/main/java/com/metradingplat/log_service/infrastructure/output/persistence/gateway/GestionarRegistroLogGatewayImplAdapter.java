@@ -75,4 +75,29 @@ public class GestionarRegistroLogGatewayImplAdapter implements GestionarRegistro
     public void eliminarPorIdEscaner(Long idEscaner) {
         this.objRegistroLogRepository.deleteByIdEscaner(idEscaner);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<java.time.LocalDate> obtenerFechasSenial(Long idEscaner) {
+        return this.objRegistroLogRepository.findDistinctFechasByIdEscaner(idEscaner);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RegistroLog> obtenerPorIdEscanerYFecha(Long idEscaner, java.time.LocalDate fecha, int page, int size) {
+        java.time.LocalDateTime inicio = fecha.atStartOfDay();
+        java.time.LocalDateTime fin = fecha.plusDays(1).atStartOfDay();
+        var pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by("timestamp").descending());
+        var entities = this.objRegistroLogRepository.findByIdEscanerAndFecha(idEscaner, inicio, fin, pageable);
+        return this.objMapper.mappearListaDeEntityARegistroLog(entities);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> obtenerSimbolosSenializadosHoy(Long idEscaner) {
+        java.time.LocalDate hoy = java.time.LocalDate.now();
+        java.time.LocalDateTime inicio = hoy.atStartOfDay();
+        java.time.LocalDateTime fin = hoy.plusDays(1).atStartOfDay();
+        return this.objRegistroLogRepository.findDistinctSymbolsByIdEscanerAndFecha(idEscaner, inicio, fin);
+    }
 }

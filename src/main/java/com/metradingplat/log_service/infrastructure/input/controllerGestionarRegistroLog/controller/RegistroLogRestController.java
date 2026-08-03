@@ -1,7 +1,9 @@
 package com.metradingplat.log_service.infrastructure.input.controllerGestionarRegistroLog.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,10 +58,30 @@ public class RegistroLogRestController {
     public ResponseEntity<List<RegistroLogDTORespuesta>> obtenerPorEscaner(
             @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size) {
-        List<RegistroLog> logs = this.objGestionarRegistroLogCUInt.obtenerPorEscaner(idEscaner, page, size);
+            @RequestParam(defaultValue = "50") int size,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+        List<RegistroLog> logs;
+        if (fecha != null) {
+            logs = this.objGestionarRegistroLogCUInt.obtenerPorEscanerYFecha(idEscaner, fecha, page, size);
+        } else {
+            logs = this.objGestionarRegistroLogCUInt.obtenerPorEscaner(idEscaner, page, size);
+        }
         List<RegistroLogDTORespuesta> respuesta = this.objMapper.mappearListaDeRegistroLogARespuesta(logs);
         return ResponseEntity.ok(respuesta);
+    }
+
+    @GetMapping("/escaner/{idEscaner}/fechas")
+    public ResponseEntity<List<LocalDate>> obtenerFechasSenial(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner) {
+        List<LocalDate> fechas = this.objGestionarRegistroLogCUInt.obtenerFechasSenial(idEscaner);
+        return ResponseEntity.ok(fechas);
+    }
+
+    @GetMapping("/escaner/{idEscaner}/signaled-today")
+    public ResponseEntity<List<String>> obtenerSimbolosSenializadosHoy(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner) {
+        List<String> symbols = this.objGestionarRegistroLogCUInt.obtenerSimbolosSenializadosHoy(idEscaner);
+        return ResponseEntity.ok(symbols);
     }
 
     @DeleteMapping("/escaner/{idEscaner}")
