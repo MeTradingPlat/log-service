@@ -48,6 +48,7 @@ jobs:
               --name "postgres-logs" \
               --network "metradingplat-network" \
               --restart "always" \
+              --cpus "0.5" \
               --memory "256m" \
               --memory-swap "256m" \
               -e POSTGRES_DB="bd_logs" \
@@ -89,6 +90,7 @@ jobs:
             --name "log-service" \
             --network "metradingplat-network" \
             --restart "unless-stopped" \
+            --cpus "0.5" \
             --memory "640m" \
             --memory-swap "640m" \
             --label project="metradingplat" \
