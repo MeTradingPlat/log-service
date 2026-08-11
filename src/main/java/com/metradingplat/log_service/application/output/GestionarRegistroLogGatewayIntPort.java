@@ -26,4 +26,8 @@ public interface GestionarRegistroLogGatewayIntPort {
     List<RegistroLog> obtenerPorIdEscanerYFecha(Long idEscaner, LocalDate fecha, int page, int size);
 
     List<String> obtenerSimbolosSenializadosHoy(Long idEscaner);
+
+    List<LocalDate> obtenerFechasRegistro(Long idEscaner);
+
+    List<RegistroLog> obtenerPorIdEscanerYFechaTodas(Long idEscaner, LocalDate fecha, int page, int size);
 }

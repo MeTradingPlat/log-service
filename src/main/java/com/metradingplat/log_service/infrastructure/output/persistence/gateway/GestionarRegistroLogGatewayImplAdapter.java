@@ -100,4 +100,20 @@ public class GestionarRegistroLogGatewayImplAdapter implements GestionarRegistro
         java.time.LocalDateTime fin = hoy.plusDays(1).atStartOfDay();
         return this.objRegistroLogRepository.findDistinctSymbolsByIdEscanerAndFecha(idEscaner, inicio, fin);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<java.time.LocalDate> obtenerFechasRegistro(Long idEscaner) {
+        return this.objRegistroLogRepository.findDistinctFechasByIdEscanerTodas(idEscaner);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RegistroLog> obtenerPorIdEscanerYFechaTodas(Long idEscaner, java.time.LocalDate fecha, int page, int size) {
+        java.time.LocalDateTime inicio = fecha.atStartOfDay();
+        java.time.LocalDateTime fin = fecha.plusDays(1).atStartOfDay();
+        var pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by("timestamp").descending());
+        var entities = this.objRegistroLogRepository.findByIdEscanerAndFechaTodas(idEscaner, inicio, fin, pageable);
+        return this.objMapper.mappearListaDeEntityARegistroLog(entities);
+    }
 }

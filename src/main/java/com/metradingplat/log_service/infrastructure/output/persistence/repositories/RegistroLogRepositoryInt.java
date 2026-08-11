@@ -30,4 +30,15 @@ public interface RegistroLogRepositoryInt extends JpaRepository<RegistroLogEntit
 
     @Query("SELECT DISTINCT r.symbol FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND r.categoria = 'SIGNAL' AND r.timestamp >= :inicio AND r.timestamp < :fin")
     List<String> findDistinctSymbolsByIdEscanerAndFecha(@Param("idEscaner") Long idEscaner, @Param("inicio") LocalDateTime inicio, @Param("fin") LocalDateTime fin);
+
+    // Sin filtro de categoria a proposito -- a diferencia de
+    // findDistinctFechasByIdEscaner/findByIdEscanerAndFecha (solo SIGNAL, para
+    // la pestana "Senales"), estas dos alimentan la pestana "Registro", que
+    // muestra TODAS las categorias (SCANNER, SYSTEM, FILTER, etc.), no solo
+    // senales.
+    @Query("SELECT DISTINCT CAST(r.timestamp AS java.time.LocalDate) FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner ORDER BY CAST(r.timestamp AS java.time.LocalDate) DESC")
+    List<java.time.LocalDate> findDistinctFechasByIdEscanerTodas(@Param("idEscaner") Long idEscaner);
+
+    @Query("SELECT r FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND r.timestamp >= :inicio AND r.timestamp < :fin")
+    List<RegistroLogEntity> findByIdEscanerAndFechaTodas(@Param("idEscaner") Long idEscaner, @Param("inicio") LocalDateTime inicio, @Param("fin") LocalDateTime fin, Pageable pageable);
 }

@@ -91,4 +91,14 @@ public class GestionarRegistroLogCUAdapter implements GestionarRegistroLogCUIntP
     public List<String> obtenerSimbolosSenializadosHoy(Long idEscaner) {
         return this.objGestionarRegistroLogGatewayIntPort.obtenerSimbolosSenializadosHoy(idEscaner);
     }
+
+    @Override
+    public List<java.time.LocalDate> obtenerFechasRegistro(Long idEscaner) {
+        return this.objGestionarRegistroLogGatewayIntPort.obtenerFechasRegistro(idEscaner);
+    }
+
+    @Override
+    public List<RegistroLog> obtenerPorEscanerYFechaTodas(Long idEscaner, java.time.LocalDate fecha, int page, int size) {
+        return this.objGestionarRegistroLogGatewayIntPort.obtenerPorIdEscanerYFechaTodas(idEscaner, fecha, page, size);
+    }
 }

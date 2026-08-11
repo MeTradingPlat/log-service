@@ -70,10 +70,36 @@ public class RegistroLogRestController {
         return ResponseEntity.ok(respuesta);
     }
 
+    // Igual que obtenerPorEscaner pero sin restringir a categoria=SIGNAL --
+    // usado por la pestana "Registro" del frontend, que muestra todos los
+    // tipos de evento, no solo senales.
+    @GetMapping("/escaner/{idEscaner}/todas")
+    public ResponseEntity<List<RegistroLogDTORespuesta>> obtenerPorEscanerTodasCategorias(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+        List<RegistroLog> logs;
+        if (fecha != null) {
+            logs = this.objGestionarRegistroLogCUInt.obtenerPorEscanerYFechaTodas(idEscaner, fecha, page, size);
+        } else {
+            logs = this.objGestionarRegistroLogCUInt.obtenerPorEscaner(idEscaner, page, size);
+        }
+        List<RegistroLogDTORespuesta> respuesta = this.objMapper.mappearListaDeRegistroLogARespuesta(logs);
+        return ResponseEntity.ok(respuesta);
+    }
+
     @GetMapping("/escaner/{idEscaner}/fechas")
     public ResponseEntity<List<LocalDate>> obtenerFechasSenial(
             @PathVariable("idEscaner") @NotNull @Positive Long idEscaner) {
         List<LocalDate> fechas = this.objGestionarRegistroLogCUInt.obtenerFechasSenial(idEscaner);
+        return ResponseEntity.ok(fechas);
+    }
+
+    @GetMapping("/escaner/{idEscaner}/fechas-registro")
+    public ResponseEntity<List<LocalDate>> obtenerFechasRegistro(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner) {
+        List<LocalDate> fechas = this.objGestionarRegistroLogCUInt.obtenerFechasRegistro(idEscaner);
         return ResponseEntity.ok(fechas);
     }
 
