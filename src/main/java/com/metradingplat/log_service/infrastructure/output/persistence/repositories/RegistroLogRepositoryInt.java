@@ -41,4 +41,13 @@ public interface RegistroLogRepositoryInt extends JpaRepository<RegistroLogEntit
 
     @Query("SELECT r FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND r.timestamp >= :inicio AND r.timestamp < :fin")
     List<RegistroLogEntity> findByIdEscanerAndFechaTodas(@Param("idEscaner") Long idEscaner, @Param("inicio") LocalDateTime inicio, @Param("fin") LocalDateTime fin, Pageable pageable);
+
+    // Totales para el paginador de fecha pasada (Senales/Registro): una foto
+    // fija ya no crece, asi que a diferencia de "hoy" (SSE en vivo, cargar
+    // mas) tiene sentido mostrar numero de pagina y saltar directo.
+    @Query("SELECT COUNT(r) FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND r.categoria = 'SIGNAL' AND r.timestamp >= :inicio AND r.timestamp < :fin")
+    long countByIdEscanerAndFecha(@Param("idEscaner") Long idEscaner, @Param("inicio") LocalDateTime inicio, @Param("fin") LocalDateTime fin);
+
+    @Query("SELECT COUNT(r) FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND r.timestamp >= :inicio AND r.timestamp < :fin")
+    long countByIdEscanerAndFechaTodas(@Param("idEscaner") Long idEscaner, @Param("inicio") LocalDateTime inicio, @Param("fin") LocalDateTime fin);
 }

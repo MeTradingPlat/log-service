@@ -89,6 +89,24 @@ public class RegistroLogRestController {
         return ResponseEntity.ok(respuesta);
     }
 
+    // Total de senales de una fecha pasada (foto fija) para el paginador del
+    // frontend -- "hoy" no lo necesita (SSE en vivo + "cargar mas").
+    @GetMapping("/escaner/{idEscaner}/count")
+    public ResponseEntity<Long> contarSenialesPorEscanerYFecha(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+        return ResponseEntity.ok(this.objGestionarRegistroLogCUInt.contarPorEscanerYFecha(idEscaner, fecha));
+    }
+
+    // Igual que arriba pero sin restringir a categoria=SIGNAL, para el
+    // paginador de la pestana "Registro" (ver obtenerPorEscanerTodasCategorias).
+    @GetMapping("/escaner/{idEscaner}/todas/count")
+    public ResponseEntity<Long> contarRegistrosPorEscanerYFecha(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+        return ResponseEntity.ok(this.objGestionarRegistroLogCUInt.contarPorEscanerYFechaTodas(idEscaner, fecha));
+    }
+
     @GetMapping("/escaner/{idEscaner}/fechas")
     public ResponseEntity<List<LocalDate>> obtenerFechasSenial(
             @PathVariable("idEscaner") @NotNull @Positive Long idEscaner) {

@@ -28,4 +28,8 @@ public interface GestionarRegistroLogCUIntPort {
     List<LocalDate> obtenerFechasRegistro(Long idEscaner);
 
     List<RegistroLog> obtenerPorEscanerYFechaTodas(Long idEscaner, LocalDate fecha, int page, int size);
+
+    long contarPorEscanerYFecha(Long idEscaner, LocalDate fecha);
+
+    long contarPorEscanerYFechaTodas(Long idEscaner, LocalDate fecha);
 }

@@ -116,4 +116,20 @@ public class GestionarRegistroLogGatewayImplAdapter implements GestionarRegistro
         var entities = this.objRegistroLogRepository.findByIdEscanerAndFechaTodas(idEscaner, inicio, fin, pageable);
         return this.objMapper.mappearListaDeEntityARegistroLog(entities);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long contarPorIdEscanerYFecha(Long idEscaner, java.time.LocalDate fecha) {
+        java.time.LocalDateTime inicio = fecha.atStartOfDay();
+        java.time.LocalDateTime fin = fecha.plusDays(1).atStartOfDay();
+        return this.objRegistroLogRepository.countByIdEscanerAndFecha(idEscaner, inicio, fin);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long contarPorIdEscanerYFechaTodas(Long idEscaner, java.time.LocalDate fecha) {
+        java.time.LocalDateTime inicio = fecha.atStartOfDay();
+        java.time.LocalDateTime fin = fecha.plusDays(1).atStartOfDay();
+        return this.objRegistroLogRepository.countByIdEscanerAndFechaTodas(idEscaner, inicio, fin);
+    }
 }

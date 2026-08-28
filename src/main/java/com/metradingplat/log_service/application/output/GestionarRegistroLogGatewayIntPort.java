@@ -30,4 +30,8 @@ public interface GestionarRegistroLogGatewayIntPort {
     List<LocalDate> obtenerFechasRegistro(Long idEscaner);
 
     List<RegistroLog> obtenerPorIdEscanerYFechaTodas(Long idEscaner, LocalDate fecha, int page, int size);
+
+    long contarPorIdEscanerYFecha(Long idEscaner, LocalDate fecha);
+
+    long contarPorIdEscanerYFechaTodas(Long idEscaner, LocalDate fecha);
 }
