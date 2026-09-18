@@ -111,7 +111,6 @@ jobs:
             -e POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
             -e SSL_ENABLED="false" \
             -e SSL_MODE="disable" \
-            -e KAFKA_BOOTSTRAP_SERVERS="kafka:29092" \
             -e EUREKA_HOST="directory" \
             virtud142/metradingplat_log_service:latest
 
