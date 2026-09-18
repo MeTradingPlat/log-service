@@ -32,4 +32,12 @@ public interface GestionarRegistroLogCUIntPort {
     long contarPorEscanerYFecha(Long idEscaner, LocalDate fecha);
 
     long contarPorEscanerYFechaTodas(Long idEscaner, LocalDate fecha);
+
+    List<RegistroLog> buscarPorEscanerYSimbolo(Long idEscaner, String simbolo, int page, int size);
+
+    long contarPorEscanerYSimbolo(Long idEscaner, String simbolo);
+
+    List<RegistroLog> buscarPorEscanerYSimboloTodas(Long idEscaner, String simbolo, int page, int size);
+
+    long contarPorEscanerYSimboloTodas(Long idEscaner, String simbolo);
 }

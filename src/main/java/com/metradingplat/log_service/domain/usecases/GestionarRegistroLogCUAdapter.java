@@ -111,4 +111,24 @@ public class GestionarRegistroLogCUAdapter implements GestionarRegistroLogCUIntP
     public long contarPorEscanerYFechaTodas(Long idEscaner, java.time.LocalDate fecha) {
         return this.objGestionarRegistroLogGatewayIntPort.contarPorIdEscanerYFechaTodas(idEscaner, fecha);
     }
+
+    @Override
+    public List<RegistroLog> buscarPorEscanerYSimbolo(Long idEscaner, String simbolo, int page, int size) {
+        return this.objGestionarRegistroLogGatewayIntPort.buscarPorIdEscanerYSimbolo(idEscaner, simbolo, page, size);
+    }
+
+    @Override
+    public long contarPorEscanerYSimbolo(Long idEscaner, String simbolo) {
+        return this.objGestionarRegistroLogGatewayIntPort.contarPorIdEscanerYSimbolo(idEscaner, simbolo);
+    }
+
+    @Override
+    public List<RegistroLog> buscarPorEscanerYSimboloTodas(Long idEscaner, String simbolo, int page, int size) {
+        return this.objGestionarRegistroLogGatewayIntPort.buscarPorIdEscanerYSimboloTodas(idEscaner, simbolo, page, size);
+    }
+
+    @Override
+    public long contarPorEscanerYSimboloTodas(Long idEscaner, String simbolo) {
+        return this.objGestionarRegistroLogGatewayIntPort.contarPorIdEscanerYSimboloTodas(idEscaner, simbolo);
+    }
 }

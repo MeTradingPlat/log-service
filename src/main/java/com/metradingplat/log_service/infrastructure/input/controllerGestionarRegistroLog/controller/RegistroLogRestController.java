@@ -128,6 +128,46 @@ public class RegistroLogRestController {
         return ResponseEntity.ok(symbols);
     }
 
+    // Busqueda por simbolo en TODO el historial del escaner (sin restringir a
+    // lo ya cargado en el frontend, ver comentario del repositorio) --
+    // categoria=SIGNAL, para la pestana "Senales".
+    @GetMapping("/escaner/{idEscaner}/buscar")
+    public ResponseEntity<List<RegistroLogDTORespuesta>> buscarPorEscanerYSimbolo(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
+            @RequestParam String simbolo,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        List<RegistroLog> logs = this.objGestionarRegistroLogCUInt.buscarPorEscanerYSimbolo(idEscaner, simbolo, page, size);
+        List<RegistroLogDTORespuesta> respuesta = this.objMapper.mappearListaDeRegistroLogARespuesta(logs);
+        return ResponseEntity.ok(respuesta);
+    }
+
+    @GetMapping("/escaner/{idEscaner}/buscar/count")
+    public ResponseEntity<Long> contarPorEscanerYSimbolo(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
+            @RequestParam String simbolo) {
+        return ResponseEntity.ok(this.objGestionarRegistroLogCUInt.contarPorEscanerYSimbolo(idEscaner, simbolo));
+    }
+
+    // Igual pero sin filtro de categoria, para la pestana "Registro".
+    @GetMapping("/escaner/{idEscaner}/todas/buscar")
+    public ResponseEntity<List<RegistroLogDTORespuesta>> buscarPorEscanerYSimboloTodas(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
+            @RequestParam String simbolo,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        List<RegistroLog> logs = this.objGestionarRegistroLogCUInt.buscarPorEscanerYSimboloTodas(idEscaner, simbolo, page, size);
+        List<RegistroLogDTORespuesta> respuesta = this.objMapper.mappearListaDeRegistroLogARespuesta(logs);
+        return ResponseEntity.ok(respuesta);
+    }
+
+    @GetMapping("/escaner/{idEscaner}/todas/buscar/count")
+    public ResponseEntity<Long> contarPorEscanerYSimboloTodas(
+            @PathVariable("idEscaner") @NotNull @Positive Long idEscaner,
+            @RequestParam String simbolo) {
+        return ResponseEntity.ok(this.objGestionarRegistroLogCUInt.contarPorEscanerYSimboloTodas(idEscaner, simbolo));
+    }
+
     @DeleteMapping("/escaner/{idEscaner}")
     public ResponseEntity<Void> eliminarPorEscaner(
             @PathVariable("idEscaner") @NotNull @Positive Long idEscaner) {

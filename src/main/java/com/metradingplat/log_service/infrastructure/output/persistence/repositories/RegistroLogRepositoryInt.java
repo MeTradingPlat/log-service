@@ -50,4 +50,21 @@ public interface RegistroLogRepositoryInt extends JpaRepository<RegistroLogEntit
 
     @Query("SELECT COUNT(r) FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND r.timestamp >= :inicio AND r.timestamp < :fin")
     long countByIdEscanerAndFechaTodas(@Param("idEscaner") Long idEscaner, @Param("inicio") LocalDateTime inicio, @Param("fin") LocalDateTime fin);
+
+    // Busqueda por simbolo en TODO el historial (sin filtro de fecha) -- a
+    // diferencia de los metodos de arriba, el buscador del frontend no debe
+    // limitarse a lo que ya esta cargado en pantalla.
+    @Query("SELECT r FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND r.categoria = 'SIGNAL' AND UPPER(r.symbol) LIKE UPPER(CONCAT('%', :symbol, '%'))")
+    List<RegistroLogEntity> findByIdEscanerAndSymbolSignal(@Param("idEscaner") Long idEscaner, @Param("symbol") String symbol, Pageable pageable);
+
+    @Query("SELECT COUNT(r) FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND r.categoria = 'SIGNAL' AND UPPER(r.symbol) LIKE UPPER(CONCAT('%', :symbol, '%'))")
+    long countByIdEscanerAndSymbolSignal(@Param("idEscaner") Long idEscaner, @Param("symbol") String symbol);
+
+    // Igual pero sin filtro de categoria, para el buscador de la pestana
+    // "Registro" (ver comentario de findByIdEscanerAndFechaTodas).
+    @Query("SELECT r FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND UPPER(r.symbol) LIKE UPPER(CONCAT('%', :symbol, '%'))")
+    List<RegistroLogEntity> findByIdEscanerAndSymbolTodas(@Param("idEscaner") Long idEscaner, @Param("symbol") String symbol, Pageable pageable);
+
+    @Query("SELECT COUNT(r) FROM RegistroLogEntity r WHERE r.idEscaner = :idEscaner AND UPPER(r.symbol) LIKE UPPER(CONCAT('%', :symbol, '%'))")
+    long countByIdEscanerAndSymbolTodas(@Param("idEscaner") Long idEscaner, @Param("symbol") String symbol);
 }

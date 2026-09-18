@@ -132,4 +132,32 @@ public class GestionarRegistroLogGatewayImplAdapter implements GestionarRegistro
         java.time.LocalDateTime fin = fecha.plusDays(1).atStartOfDay();
         return this.objRegistroLogRepository.countByIdEscanerAndFechaTodas(idEscaner, inicio, fin);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RegistroLog> buscarPorIdEscanerYSimbolo(Long idEscaner, String simbolo, int page, int size) {
+        var pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by("timestamp").descending());
+        var entities = this.objRegistroLogRepository.findByIdEscanerAndSymbolSignal(idEscaner, simbolo, pageable);
+        return this.objMapper.mappearListaDeEntityARegistroLog(entities);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long contarPorIdEscanerYSimbolo(Long idEscaner, String simbolo) {
+        return this.objRegistroLogRepository.countByIdEscanerAndSymbolSignal(idEscaner, simbolo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RegistroLog> buscarPorIdEscanerYSimboloTodas(Long idEscaner, String simbolo, int page, int size) {
+        var pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by("timestamp").descending());
+        var entities = this.objRegistroLogRepository.findByIdEscanerAndSymbolTodas(idEscaner, simbolo, pageable);
+        return this.objMapper.mappearListaDeEntityARegistroLog(entities);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long contarPorIdEscanerYSimboloTodas(Long idEscaner, String simbolo) {
+        return this.objRegistroLogRepository.countByIdEscanerAndSymbolTodas(idEscaner, simbolo);
+    }
 }
