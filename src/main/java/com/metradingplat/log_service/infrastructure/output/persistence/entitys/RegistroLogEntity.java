@@ -7,14 +7,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Sin estos indices, buscar 50 filas por escaner (Señales/Registro/busqueda
+// por simbolo) hacia un Seq Scan de la tabla ENTERA seguido de un sort --
+// confirmado en vivo el 2026-09-22 contra 88 mil filas: 596ms para 50 filas,
+// que solo empeora con el tiempo. Con estos dos, la misma consulta baja a
+// <1ms (Index Scan Backward, sin sort, ORDER BY timestamp DESC resuelto por
+// el propio indice). ddl-auto=update los crea solos en el proximo deploy;
+// en produccion ya se aplicaron a mano con CREATE INDEX CONCURRENTLY para no
+// esperar al deploy ni bloquear escrituras mientras tanto.
 @Entity
-@Table(name = "registros_log")
+@Table(name = "registros_log", indexes = {
+        @Index(name = "idx_registros_log_escaner_categoria_timestamp", columnList = "id_escaner, categoria, timestamp"),
+        @Index(name = "idx_registros_log_escaner_timestamp", columnList = "id_escaner, timestamp")
+})
 @Getter
 @Setter
 @NoArgsConstructor
